@@ -22,7 +22,7 @@ class ExpensesItem extends StatelessWidget {
               const Spacer(),
               Row(
                 children: [
-                  const Icon(Icons.access_alarms_outlined),
+                  Icon(CategoryIcon[expenseItem.category]),
                   const SizedBox(width: 8),
                   Text(expenseItem.date.toString()),
                 ],
