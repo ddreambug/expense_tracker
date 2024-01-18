@@ -24,7 +24,7 @@ class ExpensesItem extends StatelessWidget {
                 children: [
                   Icon(CategoryIcon[expenseItem.category]),
                   const SizedBox(width: 8),
-                  Text(expenseItem.date.toString()),
+                  Text(expenseItem.formattedDate),
                 ],
               )
             ],
