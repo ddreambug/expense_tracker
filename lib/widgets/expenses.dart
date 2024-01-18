@@ -29,6 +29,14 @@ class _ExpensesState extends State<Expenses> {
         category: Category.food),
   ];
 
+  void _openAddExpenseDisplay() {
+    showModalBottomSheet(
+        context: context,
+        builder: (ctx) {
+          return const Text('asdasdasdasdasdasdasdasdas');
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +44,7 @@ class _ExpensesState extends State<Expenses> {
         title: const Text('Expense Tracker'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: _openAddExpenseDisplay,
             icon: const Icon(Icons.add),
           )
         ],
