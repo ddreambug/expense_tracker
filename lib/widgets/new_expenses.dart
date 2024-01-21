@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:expense_tracker/model/expense_model.dart';
 
 class NewExpenses extends StatefulWidget {
   const NewExpenses({super.key});
@@ -12,10 +13,26 @@ class NewExpenses extends StatefulWidget {
 class _NewExpensesState extends State<NewExpenses> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  DateTime? _dateSelected;
+
+  void _showDatePicker() async {
+    final now = DateTime.now();
+    final minusYear = DateTime(now.year - 1, now.month, now.day);
+    final pickedDate = await showDatePicker(
+        context: context,
+        initialDate: now,
+        firstDate: minusYear,
+        lastDate: now);
+
+    setState(() {
+      _dateSelected = pickedDate;
+    });
+  }
 
   @override
   void dispose() {
     _titleController.dispose();
+    _amountController.dispose();
     super.dispose();
   }
 
@@ -30,10 +47,31 @@ class _NewExpensesState extends State<NewExpenses> {
             maxLength: 50,
             decoration: const InputDecoration(label: Text('Title')),
           ),
-          TextField(
-            controller: _amountController,
-            decoration: const InputDecoration(label: Text('Amount')),
-            keyboardType: TextInputType.number,
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _amountController,
+                  decoration: const InputDecoration(
+                      label: Text('Amount'), prefixText: '\$'),
+                  keyboardType: TextInputType.number,
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(_dateSelected == null
+                        ? 'No Date Selected'
+                        : formatter.format(_dateSelected!)),
+                    IconButton(
+                        onPressed: _showDatePicker,
+                        icon: const Icon(Icons.date_range_outlined))
+                  ],
+                ),
+              )
+            ],
           ),
           Row(
             children: [
