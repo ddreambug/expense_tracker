@@ -10,8 +10,8 @@ class NewExpenses extends StatefulWidget {
 }
 
 class _NewExpensesState extends State<NewExpenses> {
-  final _titleController =
-      TextEditingController(); //a better way to storing user input
+  final _titleController = TextEditingController();
+  final _amountController = TextEditingController();
 
   @override
   void dispose() {
@@ -30,11 +30,22 @@ class _NewExpensesState extends State<NewExpenses> {
             maxLength: 50,
             decoration: const InputDecoration(label: Text('Title')),
           ),
+          TextField(
+            controller: _amountController,
+            decoration: const InputDecoration(label: Text('Amount')),
+            keyboardType: TextInputType.number,
+          ),
           Row(
             children: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancel')),
               ElevatedButton(
                 onPressed: () {
-                  print(_titleController.text);
+                  print('${_titleController.text} \$${_amountController.text}');
+                  Navigator.pop(context);
                 },
                 child: const Text('Save Input'),
               )
@@ -45,3 +56,5 @@ class _NewExpensesState extends State<NewExpenses> {
     );
   }
 }
+
+//another text field separate col, amount the expense, using soft keyboard, value is stored and printed, add another button to cancel editing and close the modal overlay
