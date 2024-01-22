@@ -14,6 +14,7 @@ class _NewExpensesState extends State<NewExpenses> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _dateSelected;
+  Category category = Category.food;
 
   void _showDatePicker() async {
     final now = DateTime.now();
@@ -73,8 +74,27 @@ class _NewExpensesState extends State<NewExpenses> {
               )
             ],
           ),
+          const SizedBox(height: 20),
           Row(
             children: [
+              DropdownButton(
+                  value: category,
+                  items: Category.values
+                      .map(
+                        (category) => DropdownMenuItem(
+                          value: category,
+                          child: Text(
+                            category.name.toUpperCase(),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      category = value!;
+                    });
+                  }),
+              const Spacer(),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
