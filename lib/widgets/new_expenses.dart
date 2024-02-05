@@ -30,6 +30,31 @@ class _NewExpensesState extends State<NewExpenses> {
     });
   }
 
+  void _submitExpenseData() {
+    final enteredAmount = double.tryParse(_amountController.text);
+    final amountIsInvalid = enteredAmount == null || enteredAmount < 0;
+    if (_titleController.text.trim().isEmpty ||
+        amountIsInvalid ||
+        _dateSelected == null) {
+      showDialog(
+          //showerrormessage
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: const Text("Invalid Input"),
+                content: const Text(
+                    "Please Make Sure You Input All Required Values"),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(ctx);
+                      },
+                      child: const Text("Okay"))
+                ],
+              ));
+      return;
+    }
+  }
+
   @override
   void dispose() {
     _titleController.dispose();
