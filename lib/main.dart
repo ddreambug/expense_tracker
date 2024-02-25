@@ -10,8 +10,22 @@ void main() {
       theme: ThemeData().copyWith(
         colorScheme: kColorScheme,
         appBarTheme: const AppBarTheme().copyWith(
-            backgroundColor: const Color.fromARGB(255, 79, 158, 180),
+            backgroundColor: kColorScheme.onPrimaryContainer,
             foregroundColor: kColorScheme.onPrimary),
+        cardTheme: ThemeData().cardTheme.copyWith(
+              color: kColorScheme.onPrimary,
+            ),
+        textTheme: ThemeData().textTheme.copyWith(
+              titleLarge: TextStyle(
+                fontWeight: FontWeight.normal,
+                color: kColorScheme.onSecondaryContainer,
+                fontSize: 14,
+              ),
+            ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+              backgroundColor: kColorScheme.primaryContainer),
+        ),
       ),
       home: const Expenses(),
     ),
