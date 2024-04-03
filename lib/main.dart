@@ -4,6 +4,7 @@ import 'package:expense_tracker/widgets/expenses.dart';
 
 var kColorScheme =
     ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 146, 226, 248));
+
 void main() {
   runApp(
     MaterialApp(
