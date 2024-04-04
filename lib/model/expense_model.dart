@@ -8,7 +8,7 @@ const uuid = Uuid();
 
 enum Category { food, travel, leisure, work }
 
-const categoryIcon = {
+const categoryIcons = {
   Category.food: Icons.lunch_dining_outlined,
   Category.travel: Icons.flight_takeoff,
   Category.leisure: Icons.movie_creation_outlined,
@@ -37,16 +37,25 @@ class ExpenseModel {
 class ExpenseBucket {
   const ExpenseBucket({
     required this.category,
-    required this.expense,
+    required this.expenses,
   });
 
+  // additional constructor for filtering chart
+  ExpenseBucket.forCategory(List<ExpenseModel> allExpenses, this.category)
+      : expenses = allExpenses
+            .where((expense) => expense.category == category)
+            .toList();
+  // jadi expense adalah nama variabel untuk melambangkan allexpenses untuk menghindari variable foreshadowing dalam lamba anonymous function
+  // contoh jika expense diganti ke allExpense mungkin lebih gampang dibaca tapi logic yang ada didalam fungsinya bisa merubah outer scope juga yang
+  // membuat adanya confusion
+
   final Category category;
-  final List<ExpenseModel> expense;
+  final List<ExpenseModel> expenses;
 
   double get totalExpenses {
     double sum = 0;
 
-    for (final expense in expense) {
+    for (final expense in expenses) {
       sum += expense.amount;
     }
     return sum;
