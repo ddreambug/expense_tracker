@@ -14,8 +14,11 @@ void main() {
             backgroundColor: kColorScheme.onPrimaryContainer,
             foregroundColor: kColorScheme.onPrimary),
         cardTheme: ThemeData().cardTheme.copyWith(
-              color: kColorScheme.onPrimary,
-            ),
+            color: kColorScheme.onPrimary,
+            margin: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 8,
+            )),
         textTheme: ThemeData().textTheme.copyWith(
               titleLarge: TextStyle(
                 fontWeight: FontWeight.normal,
