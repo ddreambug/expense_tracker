@@ -72,77 +72,166 @@ class _NewExpensesState extends State<NewExpenses> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
-      child: Column(
-        children: [
-          TextField(
-            controller: _titleController,
-            maxLength: 50,
-            decoration: const InputDecoration(label: Text('Title')),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: _amountController,
-                  decoration: const InputDecoration(
-                      label: Text('Amount'), prefixText: '\$'),
-                  keyboardType: TextInputType.number,
-                ),
-              ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(_dateSelected == null
-                        ? 'No Date Selected'
-                        : formatter.format(_dateSelected!)),
-                    IconButton(
-                        onPressed: _showDatePicker,
-                        icon: const Icon(Icons.date_range_outlined))
-                  ],
-                ),
-              )
-            ],
-          ),
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              DropdownButton(
-                  value: category,
-                  items: Category.values
-                      .map(
-                        (category) => DropdownMenuItem(
+    final keyboardSpace = MediaQuery.of(context)
+        .viewInsets
+        .bottom; //untuk membaca berapa px ui yang tertindih
+
+    return LayoutBuilder(builder: (context, constraints) {
+      print(constraints.minWidth);
+      final screenWidth = constraints.maxWidth; //640
+
+      return SizedBox(
+        height: double.infinity,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(16, 16, 16, keyboardSpace + 16),
+            child: Column(
+              children: [
+                if (screenWidth >= 600)
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _titleController,
+                          maxLength: 50,
+                          decoration:
+                              const InputDecoration(label: Text('Title')),
+                        ),
+                      ),
+                      const SizedBox(width: 15),
+                      Expanded(
+                        child: TextField(
+                          controller: _amountController,
+                          decoration: const InputDecoration(
+                              label: Text('Amount'), prefixText: '\$'),
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
+                    ],
+                  )
+                else
+                  TextField(
+                    controller: _titleController,
+                    maxLength: 50,
+                    decoration: const InputDecoration(label: Text('Title')),
+                  ),
+                if (screenWidth >= 600)
+                  Row(
+                    children: [
+                      DropdownButton(
                           value: category,
-                          child: Text(
-                            category.name.toUpperCase(),
-                          ),
+                          items: Category.values
+                              .map(
+                                (category) => DropdownMenuItem(
+                                  value: category,
+                                  child: Text(
+                                    category.name.toUpperCase(),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              category = value!;
+                            });
+                          }),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(_dateSelected == null
+                                ? 'No Date Selected'
+                                : formatter.format(_dateSelected!)),
+                            IconButton(
+                                onPressed: _showDatePicker,
+                                icon: const Icon(Icons.date_range_outlined))
+                          ],
                         ),
                       )
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      category = value!;
-                    });
-                  }),
-              const Spacer(),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Cancel')),
-              ElevatedButton(
-                onPressed: _submitExpenseData,
-                child: const Text('Save Input'),
-              )
-            ],
-          )
-        ],
-      ),
-    );
+                    ],
+                  )
+                else
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _amountController,
+                          decoration: const InputDecoration(
+                              label: Text('Amount'), prefixText: '\$'),
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(_dateSelected == null
+                                ? 'No Date Selected'
+                                : formatter.format(_dateSelected!)),
+                            IconButton(
+                                onPressed: _showDatePicker,
+                                icon: const Icon(Icons.date_range_outlined))
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                const SizedBox(height: 20),
+                if (screenWidth >= 600)
+                  Row(
+                    children: [
+                      const Spacer(),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Cancel')),
+                      ElevatedButton(
+                        onPressed: _submitExpenseData,
+                        child: const Text('Save Input'),
+                      )
+                    ],
+                  )
+                else
+                  Row(
+                    children: [
+                      DropdownButton(
+                          value: category,
+                          items: Category.values
+                              .map(
+                                (category) => DropdownMenuItem(
+                                  value: category,
+                                  child: Text(
+                                    category.name.toUpperCase(),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              category = value!;
+                            });
+                          }),
+                      const Spacer(),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Cancel')),
+                      ElevatedButton(
+                        onPressed: _submitExpenseData,
+                        child: const Text('Save Input'),
+                      )
+                    ],
+                  )
+              ],
+            ),
+          ),
+        ),
+      );
+    });
   }
 }
-
-//another text field separate col, amount the expense, using soft keyboard, value is stored and printed, add another button to cancel editing and close the modal overlay
